@@ -1,212 +1,153 @@
-import pygame
-import sys
 from main import tictactoePuzzle
+import random
+import math
 
 
-def cord_convertor(x_cord, y_cord):
-    if x_cord == 0 and y_cord == 0:
-        x_cord = 1
-        y_cord = 3
-    elif x_cord == 0 and y_cord == 1:
-        x_cord = 1
-        y_cord = 2
-    elif x_cord == 0 and y_cord == 2:
-        x_cord = 1
-        y_cord = 1
-    elif x_cord == 1 and y_cord == 0:
-        x_cord = 2
-        y_cord = 3
-    elif x_cord == 1 and y_cord == 1:
-        x_cord = 2
-        y_cord = 2
-    elif x_cord == 1 and y_cord == 2:
-        x_cord = 2
-        y_cord = 1
-    elif x_cord == 2 and y_cord == 0:
-        x_cord = 3
-        y_cord = 3
-    elif x_cord == 2 and y_cord == 1:
-        x_cord = 3
-        y_cord = 2
-    elif x_cord == 2 and y_cord == 2:
-        x_cord = 3
-        y_cord = 1
+def main_menu():
+    print("Hello and welcome to TicTacToe!")
 
-    return x_cord, y_cord
+    choice = input("Please select 1 for Single Player and 2 for Multiplayer:")
+
+    play_again = 1
+
+    while play_again == 1:
+
+        if choice == "2":
+            play_game()
+        else:
+            smart_computer_game()
+
+        play_again = int(input("Please select 1 to play again, and 0 to end "
+                               "the game:"))
+
+    print("Bye :)")
 
 
-def cord_convertor2(x_cord, y_cord):
-    if x_cord == 1 and y_cord == 3:
-        x_cord = 0
-        y_cord = 0
-    elif x_cord == 1 and y_cord == 2:
-        x_cord = 0
-        y_cord = 1
-    elif x_cord == 1 and y_cord == 1:
-        x_cord = 0
-        y_cord = 2
-    elif x_cord == 2 and y_cord == 3:
-        x_cord = 1
-        y_cord = 0
-    elif x_cord == 2 and y_cord == 2:
-        x_cord = 1
-        y_cord = 1
-    elif x_cord == 2 and y_cord == 1:
-        x_cord = 1
-        y_cord = 2
-    elif x_cord == 3 and y_cord == 3:
-        x_cord = 2
-        y_cord = 0
-    elif x_cord == 3 and y_cord == 2:
-        x_cord = 2
-        y_cord = 1
-    elif x_cord == 3 and y_cord == 1:
-        x_cord = 2
-        y_cord = 2
+def play_game():
+    game = tictactoePuzzle()
 
-    return x_cord, y_cord
+    print("Hello and welcome to Multiplayer! Here is your board:")
+    print(game)
 
+    player = 1
 
-pygame.init()
+    while not game.is_board_full() and not game.is_winner(
+            "X") and not game.is_winner("O"):
 
-WIDTH = 600
-HEIGHT = 600
+        x_value = int(input("Player " + str(player) +
+                            ", please choose your x value:"))
+        y_value = int(input("Now choose your y value:"))
 
-LINE_WIDTH = 15
-CIRCLE_RADIUS = 60
-CIRCLE_WIDTH = 15
-CROSS_WIDTH = 25
-SQUARE_SIZE = 200
-SPACE = 55
+        if player == 1:
+            game.place_x((x_value, y_value))
+            player = 2
+        else:
+            game.place_o((x_value, y_value))
+            player = 1
 
-RED = (255, 0, 0)
-BG_COLOR = (28, 170, 156)
-LINE_COLOR = (23, 145, 135)
-CIRCLE_COLOR = (239, 231, 200)
-CROSS_COLOR = (66, 66, 66)
+        print(game)
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("TicTacToe")
-screen.fill(BG_COLOR)
-
-game = tictactoePuzzle()
+    if game.is_board_full() and not game.is_winner("X") and not game.is_winner(
+            "O"):
+        print("Tie Game!")
+    else:
+        print(
+            "Congratulations, Player " + str(player - 1) + " has won the game!")
 
 
-def game_over():
-    # (x coordinate, y coordinate, base, height)
-    pygame.draw.rect(screen, RED, (1, 1, 200, 100))
+def smart_computer_game():
+    game = tictactoePuzzle()
 
+    print("Hey Bucko! Here is your board:")
+    print(game)
 
-def draw_lines():
-    # (screen, colour, starting point, ending point, width)
-    pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
-    pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
-    pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
-    pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
+    player = 1
 
+    while not game.is_board_full() and not game.is_winner(
+            "X") and not game.is_winner("O"):
 
-def draw_winning_line(start_cords, end_cords):
-    pygame.draw.line(screen, RED, (start_cords[0] * 200 + 100, start_cords[1] * 200 + 100), (end_cords[0] * 200 + 100, end_cords[1] * 200 + 100), LINE_WIDTH)
+        if player == 1:
 
+            x_value = int(input("Player 1, please choose your x value:"))
+            y_value = int(input("Now choose your y value:"))
 
-def draw_figures():
-    for row in game.rows:
-        for cell in row:
-            x_value, y_value = cord_convertor2(cell.cord[0], cell.cord[1])
-            if cell.value == "O":
-                pygame.draw.circle(screen, CIRCLE_COLOR, (
-                    int(x_value * 200 + 100), int(y_value * 200 + 100)),
-                                   CIRCLE_RADIUS, CIRCLE_WIDTH)
-            elif cell.value == "X":
-                pygame.draw.line(screen, CROSS_COLOR, (
-                    x_value * SQUARE_SIZE + SPACE,
-                    y_value * SQUARE_SIZE + SQUARE_SIZE - SPACE), (
-                                     x_value * SQUARE_SIZE + SQUARE_SIZE - SPACE,
-                                     y_value * SQUARE_SIZE + SPACE),
-                                 CROSS_WIDTH)
-                pygame.draw.line(screen, CROSS_COLOR, (
-                    x_value * SQUARE_SIZE + SPACE,
-                    y_value * SQUARE_SIZE + SPACE), (
-                                     x_value * SQUARE_SIZE + SQUARE_SIZE - SPACE,
-                                     y_value * SQUARE_SIZE + SQUARE_SIZE - SPACE),
-                                 CROSS_WIDTH)
+            game.place((x_value, y_value), "X")
+            player = 2
 
+        else:
+            print("It is now the computer's turn!")
 
-draw_lines()
-
-# mainloop
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-
-        player = 1
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                game = tictactoePuzzle()
-                screen.fill(BG_COLOR)
-                draw_lines()
-
-        if game.is_winner("X") or game.is_winner("O"):
-            x1, y1 = game.winner_cords()[0][0], game.winner_cords()[0][1]
-            x2, y2 = game.winner_cords()[1][0], game.winner_cords()[1][1]
-
-            x1, y1 = cord_convertor2(x1, y1)[0], cord_convertor2(x1, y1)[1]
-            x2, y2 = cord_convertor2(x2, y2)[0], cord_convertor2(x2, y2)[1]
-
-            draw_winning_line((x1, y1), (x2, y2))
-
-        if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over():
-
-            mouseX = event.pos[0]
-            mouseY = event.pos[1]
-
-            clicked_col = int(mouseX // 200)
-            clicked_row = int(mouseY // 200)
-
-            clicked_col_1, clicked_row_1 = cord_convertor(clicked_col,
-                                                          clicked_row)
-            game.place((clicked_col_1, clicked_row_1), "X")
-            draw_figures()
-
-            # Computer's Turn
             depth = len(game.empty_cells())
             mini = game.minimax(depth, 1)
 
             x_cord = mini[0]
             y_cord = mini[1]
 
-            if x_cord == 0 and y_cord == 0:
-                x_cord = 1
-                y_cord = 1
-            elif x_cord == 0 and y_cord == 1:
-                x_cord = 2
-                y_cord = 1
-            elif x_cord == 0 and y_cord == 2:
-                x_cord = 3
-                y_cord = 1
-            elif x_cord == 1 and y_cord == 0:
-                x_cord = 1
-                y_cord = 2
-            elif x_cord == 1 and y_cord == 1:
-                x_cord = 2
-                y_cord = 2
-            elif x_cord == 1 and y_cord == 2:
-                x_cord = 3
-                y_cord = 2
-            elif x_cord == 2 and y_cord == 0:
-                x_cord = 1
-                y_cord = 3
-            elif x_cord == 2 and y_cord == 1:
-                x_cord = 2
-                y_cord = 3
-            elif x_cord == 2 and y_cord == 2:
-                x_cord = 3
-                y_cord = 3
-
             game.place((x_cord, y_cord), "O")
 
-            draw_figures()
+            player = 1
 
-    pygame.display.update()
+        print(game)
+
+    if game.is_board_full() and not game.is_winner("X") and not game.is_winner(
+            "O"):
+        print("Tie Game!")
+    elif game.is_winner("O"):
+        print("The computer has won the game!")
+    else:
+        print("Congratulations, Player 1 has won the game!")
+
+
+def computer_game():
+    game = tictactoePuzzle()
+
+    print("Hello and welcome to Single Player! Here is your board:")
+    print(game)
+
+    player = 1
+
+    while not game.is_board_full() and not game.is_winner(
+            "X") and not game.is_winner("O"):
+
+        if player == 1:
+
+            x_value = int(input("Player 1, please choose your x value:"))
+            y_value = int(input("Now choose your y value:"))
+
+            game.place((x_value, y_value), "X")
+            player = 2
+
+        else:
+            print("It is now the computer's turn!")
+
+            if game.check_rows("O") is not None:
+                value1 = game.check_rows("O")[0]
+                value2 = game.check_rows("O")[1]
+                game.place((value1, value2), "O")
+            elif game.check_rows("X") is not None:
+                value1 = game.check_rows("X")[0]
+                value2 = game.check_rows("X")[1]
+                game.place((value1, value2), "O")
+            else:
+                value1 = random.randrange(1, 4)
+                value2 = random.randrange(1, 4)
+
+                while not game.place((value1, value2), "O"):
+                    value1 = random.randrange(1, 4)
+                    value2 = random.randrange(1, 4)
+
+            player = 1
+
+        print(game)
+
+    if game.is_board_full() and not game.is_winner("X") and not game.is_winner(
+            "O"):
+        print("Tie Game!")
+    elif game.is_winner("O"):
+        print("The computer has won the game!")
+    else:
+        print("Congratulations, Player 1 has won the game!")
+
+
+if __name__ == "__main__":
+    main_menu()

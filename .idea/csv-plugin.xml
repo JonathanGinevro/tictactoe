@@ -17,7 +17,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\play_console.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\play_game.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\play_gui.py">
           <value>
             <Attribute>
               <option name="separator" value=":" />
