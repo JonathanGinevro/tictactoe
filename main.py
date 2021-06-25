@@ -1,6 +1,8 @@
 from math import inf as infinity
+
 HUMAN = +1
 COMP = -1
+
 
 class marker:
 
@@ -93,7 +95,8 @@ class tictactoePuzzle:
 
     def is_winner(self, value):
         for row in self.board:
-            if row[0].value == value and row[1].value == value and row[2].value == value:
+            if row[0].value == value and row[1].value == value and row[
+                2].value == value:
                 return True
         return False
 
@@ -175,8 +178,3 @@ class tictactoePuzzle:
                     best = score
 
         return best
-
-
-
-
-

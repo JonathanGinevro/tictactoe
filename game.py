@@ -71,6 +71,7 @@ pygame.init()
 
 WIDTH = 600
 HEIGHT = 600
+
 LINE_WIDTH = 15
 CIRCLE_RADIUS = 60
 CIRCLE_WIDTH = 15
@@ -90,6 +91,12 @@ screen.fill(BG_COLOR)
 
 game = tictactoePuzzle()
 
+
+def game_over():
+    # (x coordinate, y coordinate, base, height)
+    pygame.draw.rect(screen, RED, (1, 1, 100, 50))
+
+game_over()
 
 def draw_lines():
     # (screen, colour, starting point, ending point, width)
