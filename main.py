@@ -95,10 +95,19 @@ class tictactoePuzzle:
 
     def is_winner(self, value):
         for row in self.board:
-            if row[0].value == value and row[1].value == value and row[
-                2].value == value:
+            if row[0].value == value and row[1].value == value and \
+                    row[2].value == value:
                 return True
         return False
+
+    def winner_cords(self):
+        winner = ["X", "O"]
+
+        for option in winner:
+            for row in self.board:
+                if row[0].value == option and row[1].value == option and \
+                        row[2].value == option:
+                    return row[0].cord, row[2].cord
 
     def game_over(self):
         return self.is_winner("X") or self.is_winner("O")

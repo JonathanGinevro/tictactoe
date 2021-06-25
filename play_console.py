@@ -94,9 +94,8 @@ game = tictactoePuzzle()
 
 def game_over():
     # (x coordinate, y coordinate, base, height)
-    pygame.draw.rect(screen, RED, (1, 1, 100, 50))
+    pygame.draw.rect(screen, RED, (1, 1, 200, 100))
 
-game_over()
 
 def draw_lines():
     # (screen, colour, starting point, ending point, width)
@@ -104,6 +103,10 @@ def draw_lines():
     pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
+
+
+def draw_winning_line(start_cords, end_cords):
+    pygame.draw.line(screen, RED, (start_cords[0] * 200 + 100, start_cords[1] * 200 + 100), (end_cords[0] * 200 + 100, end_cords[1] * 200 + 100), LINE_WIDTH)
 
 
 def draw_figures():
@@ -139,12 +142,22 @@ while True:
 
         player = 1
 
-        if game.is_board_full():
-            game = tictactoePuzzle()
-            screen.fill(BG_COLOR)
-            draw_lines()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                game = tictactoePuzzle()
+                screen.fill(BG_COLOR)
+                draw_lines()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if game.is_winner("X") or game.is_winner("O"):
+            x1, y1 = game.winner_cords()[0][0], game.winner_cords()[0][1]
+            x2, y2 = game.winner_cords()[1][0], game.winner_cords()[1][1]
+
+            x1, y1 = cord_convertor2(x1, y1)[0], cord_convertor2(x1, y1)[1]
+            x2, y2 = cord_convertor2(x2, y2)[0], cord_convertor2(x2, y2)[1]
+
+            draw_winning_line((x1, y1), (x2, y2))
+
+        if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over():
 
             mouseX = event.pos[0]
             mouseY = event.pos[1]
