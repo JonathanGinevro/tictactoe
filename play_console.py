@@ -15,7 +15,7 @@ def main_menu():
         if choice == "2":
             play_game()
         else:
-            smart_computer_game()
+            computer_game()
 
         play_again = int(input("Please select 1 to play again, and 0 to end "
                                "the game:"))
@@ -39,10 +39,10 @@ def play_game():
         y_value = int(input("Now choose your y value:"))
 
         if player == 1:
-            game.place_x((x_value, y_value))
+            game.place((x_value, y_value), "X")
             player = 2
         else:
-            game.place_o((x_value, y_value))
+            game.place((x_value, y_value), "O")
             player = 1
 
         print(game)

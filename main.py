@@ -68,13 +68,25 @@ class tictactoePuzzle:
                 return True
         return False
 
-    # def winner_cords(self):
-    #     winner = ["X", "O"]
-    #
-    #     for option in winner:
-    #         for row in self.board:
-    #             if row[0] == option and row[1] == option and row[2] == option:
-    #                 return row[0].cord, row[2].cord
+    def winner_cords(self):
+        winner = ["X", "O"]
+
+        for option in winner:
+
+            for col in range(2):
+                if self.rows[0][col] == option and self.rows[1][col] == option and self.rows[2][col] == option:
+                    return (0, col), (2, col)
+
+            for row in range(2):
+                if self.rows[row][0] == option and self.rows[row][1] == option and self.rows[row][2] == option:
+                    return (row, 0), (row, 2)
+
+            if self.rows[2][0] == option and self.rows[1][1] == option and self.rows[0][2] == option:
+                return (2, 0), (0, 2)
+
+            if self.rows[0][0] == option and self.rows[1][1] == option and self.rows[2][2] == option:
+                return (0, 0), (2, 2)
+
 
     def game_over(self):
         return self.is_winner("X") or self.is_winner("O")
@@ -98,21 +110,29 @@ class tictactoePuzzle:
         return len(self.empty_cells())
 
     # def check_rows(self, value):
+    #     board = self.create_board()
+    #     row_counter = 0
     #
-    #     for row in self.board:
+    #     for row in board:
     #         c1 = 0
     #         c2 = 0
     #         return_value = None
     #
-    #         for item in row:
-    #             if item == value:
+    #         cell_counter = 0
+    #
+    #         for cell in row:
+    #             if cell == value:
     #                 c1 += 1
-    #             elif item == " ":
+    #             elif cell == " ":
     #                 c2 += 1
-    #                 return_value = item.cord
+    #                 return_value = (row_counter, cell_counter)
+    #
+    #             cell_counter += 1
     #
     #         if c1 == 2 and c2 == 1:
     #             return return_value
+    #
+    #         row_counter += 1
     #
     #     return None
 
