@@ -17,6 +17,7 @@ SPACE = 55
 RED = (255, 0, 0)
 BG_COLOR = (28, 170, 156)
 LINE_COLOR = (23, 145, 135)
+MENU_COLOR = (15, 95, 90)
 CIRCLE_COLOR = (239, 231, 200)
 CROSS_COLOR = (66, 66, 66)
 
@@ -25,6 +26,8 @@ pygame.display.set_caption("Impossible TicTacToe")
 screen.fill(BG_COLOR)
 
 game = tictactoePuzzle()
+
+pygame.draw.rect(screen, LINE_COLOR, (601, 0, 300, 600))
 
 
 def game_over():
@@ -41,7 +44,6 @@ def draw_lines():
 
 
 def draw_winning_line(start_cords, end_cords):
-
     if game.is_winner("O"):
         colour = CIRCLE_COLOR
     else:
@@ -58,10 +60,21 @@ def draw_figures():
         for col in range(3):
 
             if game.rows[row][col] == "O":
-                pygame.draw.circle(screen, CIRCLE_COLOR, (int(col * SQUARE_SIZE + SQUARE_SIZE//2), int(row * SQUARE_SIZE + SQUARE_SIZE//2)), CIRCLE_RADIUS, CIRCLE_WIDTH)
+                pygame.draw.circle(screen, CIRCLE_COLOR, (
+                int(col * SQUARE_SIZE + SQUARE_SIZE // 2),
+                int(row * SQUARE_SIZE + SQUARE_SIZE // 2)), CIRCLE_RADIUS,
+                                   CIRCLE_WIDTH)
             elif game.rows[row][col] == "X":
-                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE), CROSS_WIDTH)
-                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (
+                col * SQUARE_SIZE + SPACE,
+                row * SQUARE_SIZE + SQUARE_SIZE - SPACE), (
+                                 col * SQUARE_SIZE + SQUARE_SIZE - SPACE,
+                                 row * SQUARE_SIZE + SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (
+                col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE), (
+                                 col * SQUARE_SIZE + SQUARE_SIZE - SPACE,
+                                 row * SQUARE_SIZE + SQUARE_SIZE - SPACE),
+                                 CROSS_WIDTH)
 
 
 draw_lines()

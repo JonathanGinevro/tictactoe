@@ -159,9 +159,6 @@ class tictactoePuzzle:
 
             score = self.minimax(depth - 1, -player)
 
-            print(self, score[2])
-            print("_____________________")
-
             self[x][y] = " "
             score[0], score[1] = x, y
 
