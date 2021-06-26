@@ -74,19 +74,22 @@ class tictactoePuzzle:
         for option in winner:
 
             for col in range(2):
-                if self.rows[0][col] == option and self.rows[1][col] == option and self.rows[2][col] == option:
+                if self.rows[0][col] == option and self.rows[1][
+                    col] == option and self.rows[2][col] == option:
                     return (0, col), (2, col)
 
             for row in range(2):
-                if self.rows[row][0] == option and self.rows[row][1] == option and self.rows[row][2] == option:
+                if self.rows[row][0] == option and self.rows[row][
+                    1] == option and self.rows[row][2] == option:
                     return (row, 0), (row, 2)
 
-            if self.rows[2][0] == option and self.rows[1][1] == option and self.rows[0][2] == option:
+            if self.rows[2][0] == option and self.rows[1][1] == option and \
+                    self.rows[0][2] == option:
                 return (2, 0), (0, 2)
 
-            if self.rows[0][0] == option and self.rows[1][1] == option and self.rows[2][2] == option:
+            if self.rows[0][0] == option and self.rows[1][1] == option and \
+                    self.rows[2][2] == option:
                 return (0, 0), (2, 2)
-
 
     def game_over(self):
         return self.is_winner("X") or self.is_winner("O")
@@ -155,6 +158,10 @@ class tictactoePuzzle:
                 self[x][y] = "X"
 
             score = self.minimax(depth - 1, -player)
+
+            print(self, score[2])
+            print("_____________________")
+
             self[x][y] = " "
             score[0], score[1] = x, y
 

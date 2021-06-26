@@ -48,32 +48,20 @@ def draw_winning_line(start_cords, end_cords):
         colour = CROSS_COLOR
 
     pygame.draw.line(screen, colour,
-                     (start_cords[0] * 200 + 100, start_cords[1] * 200 + 100),
-                     (end_cords[0] * 200 + 100, end_cords[1] * 200 + 100),
+                     (start_cords[1] * 200 + 100, start_cords[0] * 200 + 100),
+                     (end_cords[1] * 200 + 100, end_cords[0] * 200 + 100),
                      LINE_WIDTH)
 
 
 def draw_figures():
-    for row in range(len(game.rows)):
-        for cell in range(len(game.rows[row])):
-            x_value = row
-            y_value = cell
+    for row in range(3):
+        for col in range(3):
 
-            if game.rows[row][cell] == "O":
-                pygame.draw.circle(screen, CIRCLE_COLOR, (
-                int(x_value * 200 + 100), int(y_value * 200 + 100)),
-                                   CIRCLE_RADIUS, CIRCLE_WIDTH)
-            elif game.rows[row][cell] == "X":
-                pygame.draw.line(screen, CROSS_COLOR, (
-                x_value * SQUARE_SIZE + SPACE,
-                y_value * SQUARE_SIZE + SQUARE_SIZE - SPACE), (
-                                 x_value * SQUARE_SIZE + SQUARE_SIZE - SPACE,
-                                 y_value * SQUARE_SIZE + SPACE), CROSS_WIDTH)
-                pygame.draw.line(screen, CROSS_COLOR, (
-                x_value * SQUARE_SIZE + SPACE, y_value * SQUARE_SIZE + SPACE), (
-                                 x_value * SQUARE_SIZE + SQUARE_SIZE - SPACE,
-                                 y_value * SQUARE_SIZE + SQUARE_SIZE - SPACE),
-                                 CROSS_WIDTH)
+            if game.rows[row][col] == "O":
+                pygame.draw.circle(screen, CIRCLE_COLOR, (int(col * SQUARE_SIZE + SQUARE_SIZE//2), int(row * SQUARE_SIZE + SQUARE_SIZE//2)), CIRCLE_RADIUS, CIRCLE_WIDTH)
+            elif game.rows[row][col] == "X":
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), CROSS_WIDTH)
 
 
 draw_lines()
@@ -103,10 +91,10 @@ while True:
             mouseX = event.pos[0]
             mouseY = event.pos[1]
 
-            clicked_col = int(mouseX // 200)
             clicked_row = int(mouseY // 200)
+            clicked_col = int(mouseX // 200)
 
-            game.place((clicked_col, clicked_row), "X")
+            game.place((clicked_row, clicked_col), "X")
             draw_figures()
 
             # Computer's Turn
