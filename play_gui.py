@@ -23,7 +23,7 @@ CIRCLE_COLOR = (239, 231, 200)
 CROSS_COLOR = (66, 66, 66)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Impossible TicTacToe")
+pygame.display.set_caption("Minimax TicTacToe")
 screen.fill(BG_COLOR)
 
 game = tictactoePuzzle()

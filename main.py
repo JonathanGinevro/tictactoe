@@ -92,7 +92,7 @@ class tictactoePuzzle:
     def game_over(self) -> bool:
         return self.is_winner("X") or self.is_winner("O")
 
-    def empty_cells(self) -> List[List[int, int]]:
+    def empty_cells(self) -> List[List[int]]:
         cell_list = []
 
         for x, row in enumerate(self.rows):
@@ -110,7 +110,7 @@ class tictactoePuzzle:
     def num_empty_spaces(self) -> int:
         return len(self.empty_cells())
 
-    def minimax(self, depth, player) -> List[int, int, str]:
+    def minimax(self, depth, player) -> List[int]:
         if player == 1:
             best = [-1, -1, -inf]
         else:
