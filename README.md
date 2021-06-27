@@ -1,1 +1,1 @@
-# tictactoe
+# TicTacToe Game using Minimax AI
