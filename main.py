@@ -73,12 +73,12 @@ class tictactoePuzzle:
 
         for option in winner:
 
-            for col in range(2):
+            for col in range(3):
                 if self.rows[0][col] == option and self.rows[1][
                     col] == option and self.rows[2][col] == option:
                     return (0, col), (2, col)
 
-            for row in range(2):
+            for row in range(3):
                 if self.rows[row][0] == option and self.rows[row][
                     1] == option and self.rows[row][2] == option:
                     return (row, 0), (row, 2)
