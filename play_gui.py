@@ -185,11 +185,6 @@ while True:
             reset()
             computer_start = False
 
-    # pygame.draw.rect(screen, (255, 255, 255), (10, 625, 180, 50), 2, 3)
-    # font = pygame.font.SysFont('Calibri', 25)
-    # text = font.render('Reset Board', True, (255, 255, 255))
-    # screen.blit(text, (40, 638))
-
     show_score(x_score, o_score)
     check_winner()
     pygame.display.update()
