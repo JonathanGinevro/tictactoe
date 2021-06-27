@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+from typing import List, Tuple
 from main import tictactoePuzzle
 
 pygame.init()
@@ -38,7 +39,7 @@ o_score = 0
 
 
 # Draw bottom menu
-def draw_menu():
+def draw_menu() -> None:
     # Menu Background
     pygame.draw.rect(screen, LINE_COLOR, (0, 600, 600, 100))
 
@@ -58,7 +59,7 @@ def draw_menu():
 
 
 # Draw TicTacToe grid
-def draw_grid():
+def draw_grid() -> None:
     pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
@@ -66,20 +67,24 @@ def draw_grid():
 
 
 # Draw line to outline winner
-def draw_winning_line(start_cords, end_cords):
+def draw_winning_line(start_cords: Tuple, end_cords: Tuple) -> bool:
     if game.is_winner("O"):
         colour = CIRCLE_COLOR
-    else:
+    elif game.is_winner("X"):
         colour = CROSS_COLOR
+    else:
+        return False
 
     pygame.draw.line(screen, colour,
                      (start_cords[1] * 200 + 100, start_cords[0] * 200 + 100),
                      (end_cords[1] * 200 + 100, end_cords[0] * 200 + 100),
                      LINE_WIDTH)
 
+    return True
+
 
 # Draw "X" and "O" in desired places
-def draw_figures():
+def draw_figures() -> None:
     for row in range(3):
         for col in range(3):
 
@@ -102,7 +107,7 @@ def draw_figures():
 
 
 # Check to find possible winner, and mark it with a line
-def check_winner():
+def check_winner() -> None:
     if game.is_winner("X") or game.is_winner("O"):
 
         x1, y1 = game.winner_cords()[0][0], game.winner_cords()[0][1]
@@ -112,7 +117,7 @@ def check_winner():
 
 
 # Change the scoreboard to represent the current score
-def update_scoreboard(score1, score2):
+def update_scoreboard(score1: int, score2: int) -> None:
     draw_menu()
     text = scoreboard_font.render('O: ' + str(score2), True, (255, 255, 255))
     text2 = scoreboard_font.render('X: ' + str(score1), True, (255, 255, 255))
@@ -121,7 +126,7 @@ def update_scoreboard(score1, score2):
 
 
 # Clean up the board
-def reset():
+def reset() -> None:
     screen.fill(BG_COLOR)
     draw_grid()
     draw_menu()
