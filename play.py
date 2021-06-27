@@ -5,6 +5,7 @@ from main import tictactoePuzzle
 
 pygame.init()
 
+# Constants
 WIDTH = 600
 HEIGHT = 700
 
@@ -15,62 +16,56 @@ CROSS_WIDTH = 25
 SQUARE_SIZE = 200
 SPACE = 55
 
-RED = (255, 0, 0)
 BG_COLOR = (28, 170, 156)
 LINE_COLOR = (23, 145, 135)
 MENU_COLOR = (15, 95, 90)
 CIRCLE_COLOR = (239, 231, 200)
 CROSS_COLOR = (66, 66, 66)
 
+# Screen Setup
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Minimax TicTacToe")
 screen.fill(BG_COLOR)
 
-game = tictactoePuzzle()
+# Font Setup
+scoreboard_font = pygame.font.SysFont('Calibri Bold', 40)
+button_font = pygame.font.SysFont('Calibri Bold', 30)
 
+# Game setup
+game = tictactoePuzzle()
 x_score = 0
 o_score = 0
-font = pygame.font.SysFont('Calibri Bold', 40)
 
 
+# Draw bottom menu
 def draw_menu():
-    # Menu
+    # Menu Background
     pygame.draw.rect(screen, LINE_COLOR, (0, 600, 600, 100))
 
-    # Button 1
-    pygame.draw.rect(screen, (255, 255, 255), (210, 625, 180, 50), 2, 3)
-
-    font = pygame.font.SysFont('Calibri Bold', 30)
-    text = font.render('Computer Start', True, (255, 255, 255))
-    screen.blit(text, (223, 641))
-
-    # Button 2
+    # Board Reset Button
     pygame.draw.rect(screen, (255, 255, 255), (10, 625, 180, 50), 2, 3)
-    font = pygame.font.SysFont('Calibri Bold', 30)
-    text = font.render('Reset Board', True, (255, 255, 255))
+    text = button_font.render('Reset Board', True, (255, 255, 255))
     screen.blit(text, (40, 641))
+
+    # Computer Start Button
+    pygame.draw.rect(screen, (255, 255, 255), (210, 625, 180, 50), 2, 3)
+    text = button_font.render('Computer Start', True, (255, 255, 255))
+    screen.blit(text, (223, 641))
 
     # Scoreboard
     pygame.draw.rect(screen, (255, 255, 255), (410, 625, 85, 50), 2, 3)
     pygame.draw.rect(screen, (255, 255, 255), (505, 625, 85, 50), 2, 3)
 
 
-def show_score(score1, score2):
-    draw_menu()
-    text = font.render('O: ' + str(score2), True, (255, 255, 255))
-    text2 = font.render('X: ' + str(score1), True, (255, 255, 255))
-    screen.blit(text, (425, 638))
-    screen.blit(text2, (522, 638))
-
-
-def draw_lines():
-    # (screen, colour, starting point, ending point, width)
+# Draw TicTacToe grid
+def draw_grid():
     pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
     pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
 
 
+# Draw line to outline winner
 def draw_winning_line(start_cords, end_cords):
     if game.is_winner("O"):
         colour = CIRCLE_COLOR
@@ -83,6 +78,7 @@ def draw_winning_line(start_cords, end_cords):
                      LINE_WIDTH)
 
 
+# Draw "X" and "O" in desired places
 def draw_figures():
     for row in range(3):
         for col in range(3):
@@ -105,17 +101,7 @@ def draw_figures():
                                  CROSS_WIDTH)
 
 
-def reset():
-    screen.fill(BG_COLOR)
-    draw_lines()
-    draw_menu()
-
-
-draw_lines()
-draw_menu()
-computer_start = False
-
-
+# Check to find possible winner, and mark it with a line
 def check_winner():
     if game.is_winner("X") or game.is_winner("O"):
 
@@ -125,20 +111,39 @@ def check_winner():
         draw_winning_line((x1, y1), (x2, y2))
 
 
-# mainloop
+# Change the scoreboard to represent the current score
+def update_scoreboard(score1, score2):
+    draw_menu()
+    text = scoreboard_font.render('O: ' + str(score2), True, (255, 255, 255))
+    text2 = scoreboard_font.render('X: ' + str(score1), True, (255, 255, 255))
+    screen.blit(text, (425, 638))
+    screen.blit(text2, (522, 638))
+
+
+# Clean up the board
+def reset():
+    screen.fill(BG_COLOR)
+    draw_grid()
+    draw_menu()
+
+
+# Set everything into place
+draw_grid()
+draw_menu()
+computer_start = False
+
+# Mainloop
 while True:
     for event in pygame.event.get():
 
+        # User exits the game
         if event.type == pygame.QUIT:
             sys.exit()
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                game = tictactoePuzzle()
-                reset()
-                computer_start = False
-
-        if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over() and not game.is_board_full() and \
+        # User places their "X"
+        if event.type == pygame.MOUSEBUTTONDOWN and \
+                not game.game_over() and \
+                not game.is_board_full() and \
                 event.pos[0] <= 600 and event.pos[1] <= 600:
             computer_start = True
             mouseX = event.pos[0]
@@ -179,12 +184,13 @@ while True:
             draw_figures()
             computer_start = True
 
+        # User presses reset button
         if event.type == pygame.MOUSEBUTTONDOWN and 10 <= event.pos[0] <= 190 \
                 and 625 <= event.pos[1] <= 675:
             game = tictactoePuzzle()
             reset()
             computer_start = False
 
-    show_score(x_score, o_score)
+    update_scoreboard(x_score, o_score)
     check_winner()
     pygame.display.update()

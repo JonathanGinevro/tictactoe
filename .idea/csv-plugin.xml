@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\play.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\play_console.py">
           <value>
             <Attribute>
